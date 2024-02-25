@@ -2,16 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from 'react-router-dom';
+import SignIn from './routes/SignIn';
+import { AuthProvider } from './auth';
+import { initializeApp } from 'firebase/app';
+import firebaseConfig from './firebase.config';
+import SignUp from './routes/SignUp';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+initializeApp(firebaseConfig);
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root')
+);
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
